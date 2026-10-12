@@ -1,0 +1,243 @@
+/*
+ * Vista impresa: solo el informe. Sin navegación, botones ni campos.
+ *
+ * Paginación: ninguna sección ni tabla se parte entre páginas. Si un bloque no
+ * cabe en lo que queda de la hoja, pasa entero a la siguiente. Las medidas
+ * están pensadas para que el informe quepa igual en carta y en A4.
+ */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000;
+    font-size: 10.5pt;
+    line-height: 1.35;
+  }
+
+  .screen-only,
+  .dialog-backdrop {
+    display: none !important;
+  }
+
+  .app-shell {
+    max-width: none;
+    padding: 0;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  /* 1 px de respiro lateral: sin él, el borde exterior de las tablas cae justo
+     en el límite del área imprimible y sale recortado. */
+  .report {
+    padding: 0 1px;
+  }
+
+  /* ---------- Bloques que no se parten ---------- */
+
+  .report header,
+  .report section,
+  .report table,
+  .report tr,
+  .report li,
+  .report-list > div,
+  .report-total {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .report h1,
+  .report h2,
+  .report caption {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .report p,
+  .report li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* El pie de tabla (totales) se imprime una sola vez, al final de su tabla,
+     en lugar de repetirse en cada página. */
+  .report tfoot {
+    display: table-row-group;
+  }
+
+  /* ---------- Texto ---------- */
+
+  .report h1 {
+    margin: 0 0 1.5mm;
+    font-size: 17pt;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .report h2 {
+    margin: 4.5mm 0 2mm;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid #000;
+    font-size: 12.5pt;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .report p,
+  .report li {
+    margin: 0 0 1.5mm;
+  }
+
+  .report ul {
+    margin: 0;
+    padding-left: 5mm;
+    list-style: disc;
+  }
+
+  .report-subtitle {
+    font-size: 11.5pt;
+  }
+
+  /* ---------- Listas de datos ---------- */
+
+  .report-list {
+    margin: 0;
+  }
+
+  .report-list > div {
+    display: grid;
+    grid-template-columns: 36% 1fr;
+    gap: 4mm;
+    padding: 1mm 0;
+    border-bottom: 1px solid #bbb;
+  }
+
+  .report-list dt {
+    font-weight: 700;
+  }
+
+  .report-list dd {
+    margin: 0;
+  }
+
+  /* ---------- Tablas ---------- */
+
+  .report table {
+    width: 100%;
+    margin: 0 0 2.5mm;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    line-height: 1.3;
+  }
+
+  .report caption {
+    padding-bottom: 1mm;
+    font-size: 10.5pt;
+    font-weight: 700;
+    text-align: left;
+    caption-side: top;
+  }
+
+  .report th,
+  .report td {
+    padding: 1mm 1.8mm;
+    border: 1px solid #888;
+    background: none;
+    color: #000;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .report table tfoot th,
+  .report table tfoot td {
+    border: 1px solid #888;
+    border-top-width: 2px;
+    font-weight: 700;
+  }
+
+  .report tbody .cell-number,
+  .report tfoot .cell-number {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* Los encabezados largos pueden ocupar dos líneas para dejar sitio a las fechas. */
+  .report thead .cell-number {
+    text-align: right;
+    white-space: normal;
+  }
+
+  .report td[data-label='Fechas'] {
+    white-space: nowrap;
+  }
+
+  /* El título de sección (h2) ya nombra estas tablas; repetirlo solo gasta alto. */
+  .report .stack-table caption {
+    display: none;
+  }
+
+  /* El número de días por etapa se ve en el calendario; aquí se omite para que
+     el nombre de la etapa quepa en una sola línea. */
+  .report .cell-days {
+    display: none;
+  }
+
+  .report .cell-detail {
+    display: block;
+    font-weight: 400;
+  }
+
+  /* ---------- Calendario: una tabla por etapa, en dos columnas ---------- */
+
+  .report-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3mm 6mm;
+    align-items: start;
+  }
+
+  .report-calendar-grid table {
+    margin: 0;
+  }
+
+  .report-calendar-grid caption {
+    font-size: 9.5pt;
+  }
+
+  .report-calendar-grid th,
+  .report-calendar-grid td {
+    padding: 0.5mm 1.8mm;
+  }
+
+  .report-calendar-grid tbody th {
+    width: 9mm;
+  }
+
+  .report-total {
+    margin: 2.5mm 0 0 !important;
+    font-size: 10.5pt;
+    text-align: right;
+  }
+
+  .report-note {
+    margin-top: 2mm !important;
+  }
+
+  /* ---------- Aclaraciones: letra pequeña en dos columnas ---------- */
+
+  .report-notes ul {
+    columns: 2;
+    column-gap: 8mm;
+    font-size: 9pt;
+    line-height: 1.3;
+  }
+
+  .report-notes li {
+    margin-bottom: 1.2mm;
+  }
+}

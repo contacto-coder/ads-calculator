@@ -1,0 +1,1435 @@
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Con la barra de resumen fija en móvil, lo enfocado no debe quedar tapado. */
+html:has(.has-summary-bar) {
+  scroll-padding-bottom: calc(var(--summary-bar-space) + 1rem);
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.app-shell p {
+  margin: 0;
+}
+
+.app-shell strong {
+  font-weight: 700;
+}
+
+.app-shell svg {
+  flex: 0 0 auto;
+}
+
+.app-shell :focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.print-only {
+  display: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Cabecera y pie ---------- */
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.app-brand {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  min-width: 0;
+}
+
+.app-brand-mark {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.app-title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.app-intro {
+  max-width: var(--content-width);
+  margin-bottom: var(--space-4);
+}
+
+.app-tagline {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  line-height: 1.45;
+}
+
+.app-intro-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-intro-points li {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.save-indicator {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.save-indicator-dot {
+  flex: 0 0 auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 50%;
+}
+
+.save-indicator-saved .save-indicator-dot {
+  border-color: var(--color-success);
+  background: var(--color-success);
+}
+
+.save-indicator-unavailable {
+  color: var(--color-warning-text);
+  font-weight: 600;
+}
+
+.save-indicator-unavailable .save-indicator-dot {
+  border-color: var(--color-warning-border);
+  background: var(--color-warning-border);
+}
+
+.app-footer {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+  max-width: var(--content-width);
+  margin-top: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* ---------- Estructura ---------- */
+
+.app-layout {
+  display: grid;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.app-main {
+  min-width: 0;
+}
+
+.app-layout:not(.app-layout-split) .app-main {
+  max-width: 56rem;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+}
+
+.step-count {
+  color: var(--color-accent-strong);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.step-title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.step-title:focus {
+  outline: none;
+}
+
+.step-title:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* El contenido de cada paso entra con un movimiento muy corto. */
+.step-card > form {
+  animation: step-in 180ms ease-out;
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.step-intro,
+.context-line {
+  margin-bottom: var(--space-5) !important;
+}
+
+.step-intro {
+  color: var(--color-text-muted);
+}
+
+.note,
+.format-hint {
+  margin-top: var(--space-3) !important;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* ---------- Indicador de pasos ---------- */
+
+.steps {
+  max-width: 56rem;
+  margin-bottom: var(--space-4);
+}
+
+.steps-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps-item {
+  position: relative;
+}
+
+/* Línea que une cada paso con el anterior. */
+.steps-item:not(:first-child)::before {
+  position: absolute;
+  top: calc(0.375rem + 1rem - 1px);
+  right: calc(50% + 1.375rem);
+  left: calc(-50% + 1.375rem);
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-border);
+  content: '';
+}
+
+.steps-item-done:not(:first-child)::before,
+.steps-item-current:not(:first-child)::before {
+  background: var(--color-accent);
+}
+
+.steps-button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.375rem var(--space-1);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: var(--text-sm);
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.steps-button:disabled {
+  cursor: not-allowed;
+}
+
+.steps-number {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--color-border-strong);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition);
+}
+
+.steps-button:disabled .steps-number {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.steps-button:hover:not(:disabled) .steps-number {
+  border-color: var(--color-accent);
+}
+
+.steps-label {
+  max-width: 100%;
+  text-align: center;
+}
+
+.steps-item-done .steps-number {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+.steps-item-current .steps-button {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.steps-item-current .steps-number {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  box-shadow: 0 0 0 4px var(--color-accent-soft);
+}
+
+/*
+ * En móvil no caben cinco nombres sin partirlos: se muestran solo los números
+ * (el nombre del paso actual está en el título de la tarjeta). Las etiquetas
+ * siguen disponibles para lectores de pantalla.
+ */
+@media (max-width: 39.99rem) {
+  .steps-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .steps-button {
+    justify-content: center;
+  }
+}
+
+/* ---------- Campos ---------- */
+
+.field {
+  margin-bottom: var(--space-5);
+}
+
+.field-label {
+  display: block;
+  margin-bottom: var(--space-1);
+  padding: 0;
+  font-weight: 600;
+}
+
+.field-hint {
+  margin-bottom: var(--space-2) !important;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: var(--control-height);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  /* 16 px evita el zoom automático de iOS al enfocar. */
+  font-size: 1rem;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.input:hover {
+  border-color: var(--color-text-muted);
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.input-number {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+select.input {
+  appearance: auto;
+}
+
+.input-date {
+  max-width: 16rem;
+}
+
+.input-affix {
+  display: flex;
+  align-items: stretch;
+}
+
+.input-affix .input {
+  position: relative;
+  flex: 1 1 auto;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-affix-text {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-left: 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Lo escrito, con separadores. La línea está siempre para que nada salte. */
+.field-readback {
+  min-height: 1.5em;
+  margin-top: var(--space-1) !important;
+  color: var(--color-accent-strong);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.field-invalid .input,
+.field-invalid .input-affix-text {
+  border-color: var(--color-error);
+  border-width: 2px;
+}
+
+.field-error {
+  margin-top: var(--space-2) !important;
+  padding-left: var(--space-2);
+  border-left: 3px solid var(--color-error);
+  color: var(--color-error);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* ---------- Opciones ---------- */
+
+.choice-group,
+.spec-group,
+.inline-choice,
+.scenario-group {
+  min-width: 0;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  border: 0;
+}
+
+.choice-group {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.spec-group {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-muted);
+}
+
+.spec-group .field:last-child {
+  margin-bottom: 0;
+}
+
+.spec-group-legend {
+  padding: 0 var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.inline-choice-options {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.radio-option {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  min-height: 2.75rem;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition);
+}
+
+.radio-option:hover {
+  border-color: var(--color-accent);
+}
+
+.radio-option input,
+.scenario-card-radio,
+.checkbox input {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0.125rem 0 0;
+  accent-color: var(--color-accent);
+}
+
+.radio-option-checked {
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.radio-option-text {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.radio-option-title {
+  font-weight: 600;
+}
+
+.radio-option-description {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.checkbox {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-top: var(--space-3);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---------- Botones ---------- */
+
+.btn {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  box-shadow: 0 1px 2px rgb(29 78 216 / 30%);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  box-shadow: 0 3px 10px rgb(29 78 216 / 28%);
+}
+
+.btn-secondary {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--color-text-muted);
+  background: var(--color-surface-muted);
+}
+
+.btn-quiet {
+  min-height: 2.75rem;
+  padding-right: var(--space-2);
+  padding-left: var(--space-2);
+  background: transparent;
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.step-nav {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+/* En móvil el botón principal ocupa el ancho libre: es más fácil de tocar. */
+.step-nav-next {
+  flex: 1 1 auto;
+}
+
+/* ---------- Cifras ---------- */
+
+.figure-label {
+  display: block;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.figure-value {
+  display: block;
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.figure-note {
+  margin: var(--space-1) 0 0 !important;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.preview {
+  margin-top: var(--space-4) !important;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-softer);
+}
+
+.preview .figure-value {
+  font-size: var(--text-2xl);
+}
+
+.preview-empty,
+.preview-text {
+  border-left-color: var(--color-border-strong);
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+}
+
+.preview-breakdown {
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.figures {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+}
+
+.figure {
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+}
+
+.figure-main {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.figure-accent {
+  border-color: var(--color-accent);
+  box-shadow: inset 4px 0 0 var(--color-accent);
+  background: var(--color-surface);
+}
+
+.figure dd,
+.summary-item dd {
+  margin: 0;
+}
+
+/* Barra proporcional: qué parte de la comisión se va a publicidad. */
+.share-bar,
+.split-bar {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+}
+
+.share-bar {
+  height: 0.375rem;
+}
+
+.share-bar-fill,
+.split-bar-budget {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+}
+
+.split {
+  margin: 0 0 var(--space-5);
+}
+
+.split-bar {
+  height: 0.75rem;
+}
+
+.split-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.split-key {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.split-key::before {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3px;
+  background: var(--color-border-strong);
+  content: '';
+}
+
+.split-key-budget::before {
+  background: var(--color-accent);
+}
+
+/* ---------- Resumen: barra fija en móvil, tarjeta lateral en escritorio ---------- */
+
+.summary-title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.summary-empty {
+  color: var(--color-text-muted);
+}
+
+.summary-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.summary-item {
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-value {
+  font-weight: 600;
+}
+
+@media (max-width: 61.99rem) {
+  /* Espacio reservado para la barra, para que no tape el final de la página. */
+  .has-summary-bar {
+    padding-bottom: var(--summary-bar-space);
+  }
+
+  .app-aside {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    padding: var(--space-2) var(--space-4) calc(var(--space-2) + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-raised);
+  }
+
+  /* Sin cifras todavía no hay nada que mostrar en la barra. */
+  .app-aside-empty,
+  .summary-title,
+  .summary-extra {
+    display: none;
+  }
+
+  .summary-list {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: space-between;
+    max-width: var(--content-width);
+    margin: 0 auto;
+  }
+
+  .summary-item-key:last-child:not(:first-child) {
+    text-align: right;
+  }
+
+  .summary .figure-label {
+    font-size: var(--text-xs);
+  }
+
+  .summary .figure-value {
+    font-size: var(--text-base);
+    overflow-wrap: normal;
+    white-space: nowrap;
+  }
+}
+
+/* ---------- Escenarios ---------- */
+
+.scenario-grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.scenario-card {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  min-width: 0;
+  /* Permite que la cifra principal se ajuste al ancho de la tarjeta. */
+  container-type: inline-size;
+  padding: var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.scenario-card:hover:not(.scenario-card-disabled) {
+  border-color: var(--color-accent);
+}
+
+.scenario-card-checked {
+  border-color: var(--color-accent);
+  background: var(--color-accent-softer);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.scenario-card-disabled {
+  border-style: dashed;
+  border-color: var(--color-border-strong);
+  cursor: not-allowed;
+}
+
+.scenario-card-header {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.scenario-card-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.scenario-card-details {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.scenario-card-figure .figure-value {
+  font-size: var(--text-xl);
+  /* Se adapta al ancho de la tarjeta para no partir la cifra. */
+  font-size: clamp(1.125rem, 9.5cqi, 1.75rem);
+}
+
+.scenario-card-stats {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* Etiqueta a la izquierda y cifra a la derecha; si no caben, la cifra baja entera. */
+.scenario-card-stat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-3);
+  align-items: baseline;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.stat-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.scenario-card-note {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.badge {
+  display: inline-block;
+  justify-self: start;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid currentcolor;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.badge-warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.badge-muted {
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+}
+
+/* ---------- Avisos ---------- */
+
+.notice {
+  margin: var(--space-4) 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-info-border);
+  border-left-width: 5px;
+  border-radius: var(--radius-md);
+  background: var(--color-info-bg);
+}
+
+.notice-warning {
+  border-color: var(--color-warning-border);
+  background: var(--color-warning-bg);
+}
+
+.notice-title {
+  margin-bottom: var(--space-1) !important;
+  font-weight: 700;
+}
+
+.notice-tone {
+  text-transform: uppercase;
+  font-size: var(--text-sm);
+  letter-spacing: 0.03em;
+}
+
+.notice-warning .notice-tone {
+  color: var(--color-warning-text);
+}
+
+.notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+/* ---------- Resultados ---------- */
+
+.results {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.results h3 {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.results-section {
+  margin-top: var(--space-6);
+}
+
+.results-section > p {
+  margin-bottom: var(--space-3) !important;
+}
+
+.results-actions {
+  display: grid;
+  margin-top: var(--space-5);
+}
+
+/* Las cuatro etapas a escala: 10, 20, 30 y 40 % del presupuesto. */
+.stage-bar {
+  display: flex;
+  gap: 3px;
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.stage-bar-segment {
+  display: grid;
+  flex: 0 1 0;
+  place-items: center;
+  min-width: 1.75rem;
+  height: 2rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+}
+
+.stage-bar-segment-1 {
+  background: var(--color-stage-1);
+}
+
+.stage-bar-segment-2 {
+  background: var(--color-stage-2);
+}
+
+.stage-bar-segment-3 {
+  background: var(--color-stage-3);
+  color: var(--color-on-accent);
+}
+
+.stage-bar-segment-4 {
+  background: var(--color-stage-4);
+  color: var(--color-on-accent);
+}
+
+.disclaimers {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-6);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  list-style: disc;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.disclosure {
+  margin-top: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.disclosure > summary {
+  min-height: 2.75rem;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.disclosure > summary:hover {
+  background: var(--color-surface-muted);
+}
+
+.disclosure-body {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+/* ---------- Tablas ---------- */
+
+.stack-table,
+.calendar-table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.table-caption {
+  padding-bottom: var(--space-2);
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-align: left;
+  caption-side: top;
+}
+
+.stack-table th,
+.stack-table td,
+.calendar-table th,
+.calendar-table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.stack-table thead th,
+.calendar-table thead th {
+  border-bottom: 2px solid var(--color-border-strong);
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.stack-table tfoot th,
+.stack-table tfoot td,
+.calendar-table tfoot th,
+.calendar-table tfoot td {
+  border-top: 2px solid var(--color-border-strong);
+  border-bottom: 0;
+  font-weight: 700;
+}
+
+.stack-table .cell-number,
+.calendar-table .cell-number {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.cell-detail {
+  display: block;
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+/* "(7 días)" baja entero a la línea siguiente; nunca se parte por dentro. */
+.cell-days {
+  white-space: nowrap;
+}
+
+.calendar-table tbody th[scope='row'] {
+  width: 2.5rem;
+}
+
+.calendar-stage-row th {
+  padding-top: var(--space-3);
+  background: var(--color-surface-muted);
+  font-weight: 700;
+}
+
+/* En pantallas estrechas las tablas de etapas y desglose se apilan. */
+@media screen and (max-width: 39.99rem) {
+  .stack-table,
+  .stack-table tbody,
+  .stack-table tfoot,
+  .stack-table tr,
+  .stack-table th,
+  .stack-table td {
+    display: block;
+  }
+
+  .stack-table caption {
+    display: block;
+  }
+
+  .stack-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .stack-table tr {
+    margin-bottom: var(--space-3);
+    padding: var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-muted);
+  }
+
+  .stack-table th,
+  .stack-table td,
+  .stack-table tfoot th,
+  .stack-table tfoot td {
+    border: 0;
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .stack-table tbody th,
+  .stack-table tfoot th {
+    font-size: var(--text-base);
+    font-weight: 700;
+  }
+
+  .stack-table td {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    justify-content: space-between;
+  }
+
+  .stack-table td::before {
+    color: var(--color-text-muted);
+    font-weight: 600;
+    content: attr(data-label);
+  }
+
+  .stack-table .cell-number {
+    text-align: right;
+    white-space: normal;
+  }
+
+  /* "(7 días)" va en su propia línea, alineado con las fechas. */
+  .stack-table .cell-days {
+    flex-basis: 100%;
+    color: var(--color-text-muted);
+    text-align: right;
+  }
+
+  .stack-table .cell-empty {
+    display: none;
+  }
+}
+
+/* ---------- Diálogo ---------- */
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background: rgb(20 28 43 / 55%);
+  animation: fade-in 120ms ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.dialog {
+  width: 100%;
+  max-width: 28rem;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: 0 12px 40px rgb(20 28 43 / 30%);
+}
+
+.dialog-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  margin-top: var(--space-5);
+}
+
+.dialog-actions .btn {
+  flex: 1 1 auto;
+}
+
+/* ---------- Pantallas medianas y grandes ---------- */
+
+@media (min-width: 40rem) {
+  .app-shell {
+    padding: var(--space-5);
+  }
+
+  .app-title {
+    font-size: var(--text-xl);
+  }
+
+  .card {
+    padding: var(--space-6);
+  }
+
+  .inline-choice-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .step-nav {
+    justify-content: space-between;
+  }
+
+  .step-nav-next {
+    flex: 0 0 auto;
+    min-width: 12rem;
+    margin-left: auto;
+  }
+
+  .results-actions {
+    display: flex;
+  }
+
+  .dialog-actions .btn {
+    flex: 0 0 auto;
+  }
+
+  .figures {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .figure-main {
+    grid-column: 1 / -1;
+  }
+
+  .figure-main .figure-value {
+    font-size: var(--text-3xl);
+  }
+
+  .figure-accent .figure-value {
+    font-size: var(--text-2xl);
+  }
+}
+
+@media (min-width: 48rem) {
+  .scenario-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .scenario-card {
+    padding: var(--space-3);
+  }
+
+  .scenario-card-title {
+    font-size: var(--text-base);
+  }
+}
+
+@media (min-width: 62rem) {
+  .app-layout-split {
+    grid-template-columns: minmax(0, var(--content-width)) minmax(16rem, 20rem);
+    gap: var(--space-5);
+  }
+
+  .app-aside {
+    position: sticky;
+    top: var(--space-4);
+  }
+
+  .summary {
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .summary-item + .summary-item {
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .summary-item-key .figure-value {
+    font-size: var(--text-2xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *,
+  .app-shell *::before,
+  .app-shell *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
